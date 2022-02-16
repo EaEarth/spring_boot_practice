@@ -1,0 +1,42 @@
+syntax = "proto3";
+
+// options for Java generated sources
+option java_multiple_files = true;
+option java_package = "com.practice.userservice.grpc.model";
+option java_outer_classname = "UserProto";
+
+message GrcpUser {
+    string firstName = 1;
+    string lastName = 2;
+    int32 age = 3;
+}
+
+message ResponseMessage {
+    int32 status = 1;
+    string message = 2;
+}
+
+message UserId {
+    int64 id = 1;
+}
+
+message UserEntity {
+    int64 id = 1;
+    string firstName = 2;
+    string lastName = 3;
+    int32 age = 4;
+}
+
+message GetUserResponse {
+    oneof isFound{
+        UserEntity userFound = 1;
+        ResponseMessage userNotFound = 2;
+    }
+}
+
+service UserService {
+    rpc Save (GrcpUser) returns (GrcpUser);
+    rpc GetById (UserId) returns (GetUserResponse);
+    rpc Delete (UserId) returns (ResponseMessage);
+    rpc Update (UserEntity) returns (GetUserResponse);
+}
